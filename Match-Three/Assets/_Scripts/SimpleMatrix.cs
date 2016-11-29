@@ -8,9 +8,11 @@ public class SimpleMatrix : MonoBehaviour {
     private GameObject[,] matrix;
     private List<MatchTwo> matchTwos;
     private List<MatchThree> matchThrees;
+    private bool wasChanged;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         matrix = new GameObject[10, 10];
         matchTwos = new List<MatchTwo>();
         matchThrees = new List<MatchThree>();
@@ -29,6 +31,9 @@ public class SimpleMatrix : MonoBehaviour {
         }
         checkForTwo();
         checkForThree(matchTwos);
+        removeThrees();
+        dropDown();
+        repopulate();
         /*
         Debug.Log(matchThrees.Count);
         */
@@ -44,9 +49,8 @@ public class SimpleMatrix : MonoBehaviour {
             Debug.Log(m.ToString());
         }
         */
-        mark();
-        removeThrees();
-        
+
+        /*
         foreach(GameObject obj in matrix)
         {
             if (obj != null)
@@ -58,11 +62,12 @@ public class SimpleMatrix : MonoBehaviour {
                 Debug.Log(obj);
             }
         }
+        */
     }
 
-	
-	// Update is called once per frame
-	void Update () { 
+    // Update is called once per frame
+    void Update()
+    {
 
         //Debug quick restarts
         if (Input.GetKeyDown(KeyCode.Space))
@@ -70,12 +75,15 @@ public class SimpleMatrix : MonoBehaviour {
             restart();
         }
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (wasChanged)
         {
-            Debug.Log("DropDown start");
+            checkForTwo();
+            checkForThree(matchTwos);
+            removeThrees();
             dropDown();
+            repopulate();
         }
-	}
+    }
 
     
     //Accessor method for the matrix
@@ -121,11 +129,11 @@ public class SimpleMatrix : MonoBehaviour {
                 {
                     if (matrix[i, j].CompareTag(matrix[i + 1, j].tag))
                     {
-                        matchTwos.Add(new MatchTwo(matrix[i, j].transform.localPosition, matrix[i + 1, j].transform.localPosition));
+                        matchTwos.Add(new MatchTwo(matrix[i, j].transform.localPosition, matrix[i + 1, j].transform.localPosition, matrix[i, j].tag));
                     }
                     if (matrix[i, j].CompareTag(matrix[i + 2, j].tag))
                     {
-                        matchTwos.Add(new MatchTwo(matrix[i, j].transform.localPosition, matrix[i + 2, j].transform.localPosition));
+                        matchTwos.Add(new MatchTwo(matrix[i, j].transform.localPosition, matrix[i + 2, j].transform.localPosition, matrix[i, j].tag));
                     }
                 }
                 /* Checks up in the y direction up to the maximum y - 3 from x = 0 to x = x max
@@ -134,11 +142,11 @@ public class SimpleMatrix : MonoBehaviour {
                 {
                     if (matrix[i, j].CompareTag(matrix[i, j + 1].tag))
                     {
-                        matchTwos.Add(new MatchTwo(matrix[i, j].transform.localPosition, matrix[i, j + 1].transform.localPosition));
+                        matchTwos.Add(new MatchTwo(matrix[i, j].transform.localPosition, matrix[i, j + 1].transform.localPosition, matrix[i, j].tag));
                     }
                     if (matrix[i, j].CompareTag(matrix[i, j + 2].tag))
                     {
-                        matchTwos.Add(new MatchTwo(matrix[i, j].transform.localPosition, matrix[i, j + 2].transform.localPosition));
+                        matchTwos.Add(new MatchTwo(matrix[i, j].transform.localPosition, matrix[i, j + 2].transform.localPosition, matrix[i, j].tag));
                     }
                 }
             }
@@ -149,15 +157,15 @@ public class SimpleMatrix : MonoBehaviour {
         {
             if (matrix[matrix.GetLength(0) - 3, j].CompareTag(matrix[matrix.GetLength(0) - 2, j].tag))
             {
-                matchTwos.Add(new MatchTwo(matrix[matrix.GetLength(0) - 3, j].transform.localPosition, matrix[matrix.GetLength(0) - 2, j].transform.localPosition));
+                matchTwos.Add(new MatchTwo(matrix[matrix.GetLength(0) - 3, j].transform.localPosition, matrix[matrix.GetLength(0) - 2, j].transform.localPosition, matrix[matrix.GetLength(0) - 3, j].tag));
             }
             if (matrix[matrix.GetLength(0) - 3, j].CompareTag(matrix[matrix.GetLength(0) - 1, j].tag))
             {
-                matchTwos.Add(new MatchTwo(matrix[matrix.GetLength(0) - 3, j].transform.localPosition, matrix[matrix.GetLength(0) - 1, j].transform.localPosition));
+                matchTwos.Add(new MatchTwo(matrix[matrix.GetLength(0) - 3, j].transform.localPosition, matrix[matrix.GetLength(0) - 1, j].transform.localPosition, matrix[matrix.GetLength(0) - 3, j].tag));
             }
             if (matrix[matrix.GetLength(0) - 2, j].CompareTag(matrix[matrix.GetLength(0) - 1, j].tag))
             {
-                matchTwos.Add(new MatchTwo(matrix[matrix.GetLength(0) - 2, j].transform.localPosition, matrix[matrix.GetLength(0) - 1, j].transform.localPosition));
+                matchTwos.Add(new MatchTwo(matrix[matrix.GetLength(0) - 2, j].transform.localPosition, matrix[matrix.GetLength(0) - 1, j].transform.localPosition, matrix[matrix.GetLength(0) - 2, j].tag));
             }
         }
         /* Checks up in the y direction from maximum y - 3 to maximum y from x = 0 to x = x max
@@ -166,15 +174,15 @@ public class SimpleMatrix : MonoBehaviour {
         {
             if (matrix[i, matrix.GetLength(1) - 3].CompareTag(matrix[i, matrix.GetLength(1) - 2].tag))
             {
-                matchTwos.Add(new MatchTwo(matrix[i, matrix.GetLength(1) - 3].transform.localPosition, matrix[i, matrix.GetLength(1) - 2].transform.localPosition));
+                matchTwos.Add(new MatchTwo(matrix[i, matrix.GetLength(1) - 3].transform.localPosition, matrix[i, matrix.GetLength(1) - 2].transform.localPosition, matrix[i, matrix.GetLength(1) - 3].tag));
             }
             if (matrix[i, matrix.GetLength(1) - 3].CompareTag(matrix[i, matrix.GetLength(1) - 1].tag))
             {
-                matchTwos.Add(new MatchTwo(matrix[i, matrix.GetLength(1) - 3].transform.localPosition, matrix[i, matrix.GetLength(1) - 1].transform.localPosition));
+                matchTwos.Add(new MatchTwo(matrix[i, matrix.GetLength(1) - 3].transform.localPosition, matrix[i, matrix.GetLength(1) - 1].transform.localPosition, matrix[i, matrix.GetLength(1) - 3].tag));
             }
             if (matrix[i, matrix.GetLength(1) - 2].CompareTag(matrix[i, matrix.GetLength(1) - 1].tag))
             {
-                matchTwos.Add(new MatchTwo(matrix[i, matrix.GetLength(1) - 2].transform.localPosition, matrix[i, matrix.GetLength(1) - 1].transform.localPosition));
+                matchTwos.Add(new MatchTwo(matrix[i, matrix.GetLength(1) - 2].transform.localPosition, matrix[i, matrix.GetLength(1) - 1].transform.localPosition, matrix[i, matrix.GetLength(1) - 2].tag));
             }
         }
     }
@@ -191,14 +199,14 @@ public class SimpleMatrix : MonoBehaviour {
             if (coords[1].x - coords[0].x == 1)
             {
                 Vector3 coord = new Vector3(coords[0].x + 2, coords[0].y);
-                if (contains(new MatchTwo(coords[0], coord)) && contains(new MatchTwo(coords[1], coord)))
+                if (contains(new MatchTwo(coords[0], coord, list[i].getShape())) && contains(new MatchTwo(coords[1], coord, list[i].getShape())))
                 {
-                    matchThrees.Add(new MatchThree(coords[0], coords[1], coord));
+                    matchThrees.Add(new MatchThree(coords[0], coords[1], coord, list[i].getShape()));
                     matchTwos.RemoveAt(i);
                     i--;
                 }
             }
-            /*
+            /* Redundant code
             else if (coords[1].x - coords[0].x == 2)
             {
                 Vector3 coord = new Vector3(coords[0].x + 1, coords[0].y);
@@ -212,14 +220,14 @@ public class SimpleMatrix : MonoBehaviour {
             if (coords[1].y - coords[0].y == 1)
             {
                 Vector3 coord = new Vector3(coords[0].x, coords[0].y + 2);
-                if (contains(new MatchTwo(coords[0], coord)) && contains(new MatchTwo(coords[1], coord)))
+                if (contains(new MatchTwo(coords[0], coord, list[i].getShape())) && contains(new MatchTwo(coords[1], coord, list[i].getShape())))
                 {
-                    matchThrees.Add(new MatchThree(coords[0], coords[1], coord));
+                    matchThrees.Add(new MatchThree(coords[0], coords[1], coord, list[i].getShape()));
                     matchTwos.RemoveAt(i);
                     i--;
                 }
             }
-            /*
+            /* Redundant code
             else if (coords[1].y - coords[0].y == 2)
             {
                 Vector3 coord = new Vector3(coords[0].x, coords[0].y + 1);
@@ -289,13 +297,15 @@ public class SimpleMatrix : MonoBehaviour {
             {
                 if (matrix[i, j] == null)
                 {
-                    Debug.Log("x: " + j + " y: " + i);
+                    //Debug.Log("x: " + j + " y: " + i);
                     for (int h = i + 1; h < matrix.GetLength(0); h++)
                     {
                         if (matrix[h, j] != null)
                         {
+                            //Debug.Log(matrix[h, j].name);
                             matrix[i, j] = matrix[h, j];
                             matrix[h, j] = null;
+                            matrix[i, j].name = "Cell[" + j + ", " + i + "]";
                             matrix[i, j].transform.localPosition = new Vector3(j, i);
                             break;
                         }
@@ -304,4 +314,28 @@ public class SimpleMatrix : MonoBehaviour {
             }
         }
     }
+
+    /* Fills the empty spaces in the matrix with new shapes 
+     */
+    private void repopulate()
+    {
+        bool change = false;
+        for (int i = 0; i < matrix.GetLength(0); i++)
+        {
+            for (int j = 0; j < matrix.GetLength(1); j++)
+            {
+                if (matrix[i, j] == null)
+                {
+                    matrix[i, j] = Instantiate(prefabs[(int)Random.Range(0f, prefabs.Length)]);
+                    matrix[i, j].transform.parent = gameObject.transform;
+                    matrix[i, j].transform.localPosition = new Vector3(j, i, 0f);
+                    matrix[i, j].transform.rotation = Quaternion.identity;
+                    matrix[i, j].name = "Cell[" + j + ", " + i + "]";
+                    change = true;
+                }
+            }
+        }
+        wasChanged = change;
+    }
+
 }
