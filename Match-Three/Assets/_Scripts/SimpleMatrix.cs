@@ -45,7 +45,7 @@ public class SimpleMatrix : MonoBehaviour {
         }
         */
         mark();
-        //removeThrees();
+        removeThrees();
         
         foreach(GameObject obj in matrix)
         {
@@ -58,8 +58,6 @@ public class SimpleMatrix : MonoBehaviour {
                 Debug.Log(obj);
             }
         }
-        
-        //dropDown();
     }
 
 	
@@ -70,6 +68,12 @@ public class SimpleMatrix : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             restart();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            Debug.Log("DropDown start");
+            dropDown();
         }
 	}
 
@@ -285,14 +289,15 @@ public class SimpleMatrix : MonoBehaviour {
             {
                 if (matrix[i, j] == null)
                 {
-                    Debug.Log("x: " + i + " y: " + j);
-                    for (int h = j + 1; h < matrix.GetLength(1); h++)
+                    Debug.Log("x: " + j + " y: " + i);
+                    for (int h = i + 1; h < matrix.GetLength(0); h++)
                     {
-                        if (matrix[i, h] != null)
+                        if (matrix[h, j] != null)
                         {
-                            //Debug.Log(matrix[i, h].name);
-                            matrix[i, j] = matrix[i, h];
-                            matrix[i, j].gameObject.transform.position = new Vector3(i, j);
+                            matrix[i, j] = matrix[h, j];
+                            matrix[h, j] = null;
+                            matrix[i, j].transform.localPosition = new Vector3(j, i);
+                            break;
                         }
                     }
                 }
