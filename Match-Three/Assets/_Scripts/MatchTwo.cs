@@ -26,11 +26,11 @@ public class MatchTwo {
 
     public override string ToString()
     {
-        return "Coordinate 1\nx: " + coordPairs[0].x + " y: " + coordPairs[0].y + " z: " + coordPairs[0].z + "\n" + "Coordinate 2\nx: " + coordPairs[1].x + " y: " + coordPairs[1].y + " z: " + coordPairs[1].z + "\n";
+        return "Coordinate 1\nx: " + coordPairs[0].x + " y: " + coordPairs[0].y + " z: " + coordPairs[0].z + "\n" + "Coordinate 2\nx: " + coordPairs[1].x + " y: " + coordPairs[1].y + " z: " + coordPairs[1].z + "\n" + "Shape: " + shape + "\n";
     }
 
     public bool Equals(MatchTwo obj)
     {
-        return obj.getCoordPairs()[0].Equals(coordPairs[0]) && obj.getCoordPairs()[1].Equals(coordPairs[1]) && obj.getShape().Equals(shape);
+        return (obj.getCoordPairs()[0].Equals(coordPairs[0]) && obj.getCoordPairs()[1].Equals(coordPairs[1]) || obj.getCoordPairs()[0].Equals(coordPairs[1]) && obj.getCoordPairs()[1].Equals(coordPairs[0])) && obj.getShape().Equals(shape);
     }
 }
