@@ -16,6 +16,6 @@ public class PlayerSelect : MonoBehaviour {
     void OnMouseDown()
     {
         //Debug.Log("Mouse Down on : " + gameObject.transform.localPosition);
-        gameObject.GetComponentInParent<SimpleMatrix>().playerMove(gameObject.transform.localPosition);
+        gameObject.GetComponentInParent<ComplexMatrix>().playerMove(gameObject.transform.localPosition);
     }
 }

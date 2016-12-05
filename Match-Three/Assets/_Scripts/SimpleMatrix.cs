@@ -161,11 +161,11 @@ public class SimpleMatrix : MonoBehaviour {
                  */
                 if (i < matrix.GetLength(0) - 3)
                 {
-                    if (matrix[i, j] != null && matrix[i + 1, j] != null && matrix[i, j].CompareTag(matrix[i + 1, j].tag))
+                    if (matrix[i, j].CompareTag(matrix[i + 1, j].tag))
                     {
                         matchTwos.Add(new MatchTwo(matrix[i, j].transform.localPosition, matrix[i + 1, j].transform.localPosition, matrix[i, j].tag));
                     }
-                    if (matrix[i, j] != null && matrix[i + 2, j] != null && matrix[i, j].CompareTag(matrix[i + 2, j].tag))
+                    if (matrix[i, j].CompareTag(matrix[i + 2, j].tag))
                     {
                         matchTwos.Add(new MatchTwo(matrix[i, j].transform.localPosition, matrix[i + 2, j].transform.localPosition, matrix[i, j].tag));
                     }
@@ -174,11 +174,11 @@ public class SimpleMatrix : MonoBehaviour {
                  */
                 if (j < matrix.GetLength(1) - 3)
                 {
-                    if (matrix[i, j] != null && matrix[i, j + 1] != null && matrix[i, j].CompareTag(matrix[i, j + 1].tag))
+                    if (matrix[i, j].CompareTag(matrix[i, j + 1].tag))
                     {
                         matchTwos.Add(new MatchTwo(matrix[i, j].transform.localPosition, matrix[i, j + 1].transform.localPosition, matrix[i, j].tag));
                     }
-                    if (matrix[i, j] != null && matrix[i, j + 2] != null && matrix[i, j].CompareTag(matrix[i, j + 2].tag))
+                    if (matrix[i, j].CompareTag(matrix[i, j + 2].tag))
                     {
                         matchTwos.Add(new MatchTwo(matrix[i, j].transform.localPosition, matrix[i, j + 2].transform.localPosition, matrix[i, j].tag));
                     }
@@ -190,15 +190,15 @@ public class SimpleMatrix : MonoBehaviour {
          */
         for (int j = 0; j < matrix.GetLength(1); j++)
         {
-            if (matrix[matrix.GetLength(0) - 3, j] != null && matrix[matrix.GetLength(0) - 2, j] != null && matrix[matrix.GetLength(0) - 3, j].CompareTag(matrix[matrix.GetLength(0) - 2, j].tag))
+            if (matrix[matrix.GetLength(0) - 3, j].CompareTag(matrix[matrix.GetLength(0) - 2, j].tag))
             {
                 matchTwos.Add(new MatchTwo(matrix[matrix.GetLength(0) - 3, j].transform.localPosition, matrix[matrix.GetLength(0) - 2, j].transform.localPosition, matrix[matrix.GetLength(0) - 3, j].tag));
             }
-            if (matrix[matrix.GetLength(0) - 3, j] != null && matrix[matrix.GetLength(0) - 1, j] != null && matrix[matrix.GetLength(0) - 3, j].CompareTag(matrix[matrix.GetLength(0) - 1, j].tag))
+            if (matrix[matrix.GetLength(0) - 3, j].CompareTag(matrix[matrix.GetLength(0) - 1, j].tag))
             {
                 matchTwos.Add(new MatchTwo(matrix[matrix.GetLength(0) - 3, j].transform.localPosition, matrix[matrix.GetLength(0) - 1, j].transform.localPosition, matrix[matrix.GetLength(0) - 3, j].tag));
             }
-            if (matrix[matrix.GetLength(0) - 2, j] != null && matrix[matrix.GetLength(0) - 1, j] != null && matrix[matrix.GetLength(0) - 2, j].CompareTag(matrix[matrix.GetLength(0) - 1, j].tag))
+            if (matrix[matrix.GetLength(0) - 2, j].CompareTag(matrix[matrix.GetLength(0) - 1, j].tag))
             {
                 matchTwos.Add(new MatchTwo(matrix[matrix.GetLength(0) - 2, j].transform.localPosition, matrix[matrix.GetLength(0) - 1, j].transform.localPosition, matrix[matrix.GetLength(0) - 2, j].tag));
             }
@@ -207,15 +207,15 @@ public class SimpleMatrix : MonoBehaviour {
          */
         for (int i = 0; i < matrix.GetLength(0); i++)
         {
-            if (matrix[i, matrix.GetLength(1) - 3] != null && matrix[i, matrix.GetLength(1) - 2] != null && matrix[i, matrix.GetLength(1) - 3].CompareTag(matrix[i, matrix.GetLength(1) - 2].tag))
+            if (matrix[i, matrix.GetLength(1) - 3].CompareTag(matrix[i, matrix.GetLength(1) - 2].tag))
             {
                 matchTwos.Add(new MatchTwo(matrix[i, matrix.GetLength(1) - 3].transform.localPosition, matrix[i, matrix.GetLength(1) - 2].transform.localPosition, matrix[i, matrix.GetLength(1) - 3].tag));
             }
-            if (matrix[i, matrix.GetLength(1) - 3] != null && matrix[i, matrix.GetLength(1) - 1] != null && matrix[i, matrix.GetLength(1) - 3].CompareTag(matrix[i, matrix.GetLength(1) - 1].tag))
+            if (matrix[i, matrix.GetLength(1) - 3].CompareTag(matrix[i, matrix.GetLength(1) - 1].tag))
             {
                 matchTwos.Add(new MatchTwo(matrix[i, matrix.GetLength(1) - 3].transform.localPosition, matrix[i, matrix.GetLength(1) - 1].transform.localPosition, matrix[i, matrix.GetLength(1) - 3].tag));
             }
-            if (matrix[i, matrix.GetLength(1) - 2] != null && matrix[i, matrix.GetLength(1) - 1] != null && matrix[i, matrix.GetLength(1) - 2].CompareTag(matrix[i, matrix.GetLength(1) - 1].tag))
+            if (matrix[i, matrix.GetLength(1) - 2].CompareTag(matrix[i, matrix.GetLength(1) - 1].tag))
             {
                 matchTwos.Add(new MatchTwo(matrix[i, matrix.GetLength(1) - 2].transform.localPosition, matrix[i, matrix.GetLength(1) - 1].transform.localPosition, matrix[i, matrix.GetLength(1) - 2].tag));
             }
@@ -362,9 +362,6 @@ public class SimpleMatrix : MonoBehaviour {
             if (playerSelected[i].Equals(new Vector3(-1f, -1f, -1f)))
             {
                 playerSelected[i] = r;
-
-                Debug.Log("playerSelected: " + playerSelected[i]);
-
                 break;
             }
         }
@@ -429,8 +426,7 @@ public class SimpleMatrix : MonoBehaviour {
 
         List<MatchThree> oldMatchThrees = new List<MatchThree>();
         oldMatchThrees.AddRange(matchThrees);
-        bool oldWasChanged = wasChanged;
-
+        
         /* Checks if the move creates a match three
          * If the move does create a match three, then wasChanged will be true and is a valid move
          * If the move does not create a match three, then wasChanged will be false and is an invalid move
